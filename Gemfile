@@ -1,4 +1,7 @@
 source 'https://rubygems.org'
+#Voting
+gem 'activerecord-reputation-system', require: 'reputation_system'
+
 #Tagging
 gem 'acts-as-taggable-on'
 #Foundation

@@ -3,11 +3,18 @@
 <h1>
   <%= image_tag(current_user.facebook.get_picture(@page.person_id)) %>
   <%= @page.person %>
-
 </h1>
-<h2>
-  Tags: <%= raw @page.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %>
-</h2>
+
+<h6><%= raw @page.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %></h6>
+
+<%= form_tag add_tag_list_url, method: 'patch' do %>
+  <%= label_tag :tag_list, "Please seperate tags by commas" %>
+  <%= text_field_tag :tag_list %>
+
+  <%= hidden_field_tag :id, @page.id %>
+
+  <%= submit_tag "Submit" %>
+<% end %>
 
 <%= link_to 'Edit', edit_page_path(@page) %> |
 <%= link_to 'Back', pages_path %>

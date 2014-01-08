@@ -1,35 +1,18 @@
-<h1>Listing pages</h1>
-
 <div id="tag_cloud">
   <% tag_cloud Page.tag_counts, %w[s m l] do |tag, css_class| %>
     <%= link_to tag.name, tag_path(tag.name), class: css_class %>
   <% end %>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Person</th>
-      <th>Person</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+<%= form_tag pages_url, method: 'get', :id => 'search_form' do %>
+  <%= text_field_tag :search, nil, :placeholder => 'Search...' %>
+  <%= submit_tag "Search" %>
+<% end %>
 
-  <tbody>
+<% if @pages %>
+  <ul>
     <% @pages.each do |page| %>
-      <tr>
-        <td><%= page.person %></td>
-        <td><%= page.person_id %></td>
-        <td><%= link_to 'Show', page %></td>
-        <td><%= link_to 'Edit', edit_page_path(page) %></td>
-        <td><%= link_to 'Destroy', page, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <li><%= link_to "#{image_tag(current_user.facebook.get_picture(page.person_id))} #{page.person}".html_safe, page_url(page.id) %></li>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Page', new_page_path %>
+  </ul>
+<% end %>

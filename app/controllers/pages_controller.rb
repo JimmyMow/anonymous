@@ -1,22 +1,23 @@
 class PagesController < ApplicationController
-  before_action :set_page, only: [:show, :edit, :update, :destroy]
+  before_action :set_page, only: [:show, :edit, :update, :destroy, :add_tag_list]
 
   # GET /pages
   # GET /pages.json
   def index
-    if params[:tag]
-      @pages = Page.tagged_with(params[:tag])
-    else
-      @pages = Page.all
+
+    if params[:search]
+      @pages = Page.where("person LIKE ? OR person_id LIKE ?",
+                                    "%#{params[:search]}%",
+                                    "%#{params[:search]}%")
+    elsif params[:tag]
+      @pages = Page.tagged_with(params[:tag]).limit(25)
     end
-    current_user.friends.each do |friend|
-      unless Page.where(:person_id => friend["id"]).count > 0
-        p = Page.new
-        p.person = friend["name"]
-        p.person_id = friend["id"]
-        p.save
-      end
-    end
+    # current_user.friends.each do |friend|
+    #   Page.where(:person_id => friend['id']).first_or_create do |page|
+    #     page.person = friend['name']
+    #     page.person_id = friend['id']
+    #   end
+    # end
   end
 
   # GET /pages/1
@@ -75,6 +76,12 @@ class PagesController < ApplicationController
     end
   end
 
+  def add_tag_list
+    @page.tag_list.add(params[:tag_list])
+    @page.save
+    redirect_to page_url(@page.id)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_page
@@ -83,6 +90,6 @@ class PagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def page_params
-      params.require(:page).permit(:person, :person_id, :tag_list)
+        params.require(:page).permit(:person, :person_id, :tag_list)
     end
 end
