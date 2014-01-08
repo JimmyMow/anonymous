@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 #Voting
-gem 'activerecord-reputation-system', require: 'reputation_system'
-
+gem 'thumbs_up'
 #Tagging
 gem 'acts-as-taggable-on'
 #Foundation

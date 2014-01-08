@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :set_page, only: [:show, :edit, :update, :destroy, :add_tag_list]
+  before_action :set_page, only: [:show, :edit, :update, :destroy, :add_tag_list, :vote]
 
   # GET /pages
   # GET /pages.json
@@ -12,6 +12,8 @@ class PagesController < ApplicationController
     elsif params[:tag]
       @pages = Page.tagged_with(params[:tag]).limit(25)
     end
+    @rand_one = Page.offset(rand(Page.count)).first
+    @rand_two = Page.offset(rand(Page.count)).first
     # current_user.friends.each do |friend|
     #   Page.where(:person_id => friend['id']).first_or_create do |page|
     #     page.person = friend['name']
@@ -80,6 +82,11 @@ class PagesController < ApplicationController
     @page.tag_list.add(params[:tag_list])
     @page.save
     redirect_to page_url(@page.id)
+  end
+
+  def vote
+    current_user.vote_for(@page)
+    redirect_to pages_url
   end
 
   private

@@ -16,3 +16,7 @@
     <% end %>
   </ul>
 <% end %>
+
+<h3>Who would you rather hit?</h3>
+<p><%= @rand_one.person %> <%= link_to "Hit", vote_page_url(id: @rand_one.id), :method => 'post' %></p>
+<p><%= @rand_two.person %> <%= link_to "Hit", vote_page_url(id: @rand_two.id), :method => 'post' %></p>

@@ -9,7 +9,9 @@ Anonymous::Application.routes.draw do
 
   get 'tags/:tag', to: 'pages#index', as: :tag
 
-  resources :pages
+  resources :pages do
+    member { post :vote }
+  end
   patch 'add_tag_list', to: "pages#add_tag_list", as: 'add_tag_list'
   resources :users
   # The priority is based upon order of creation: first created -> highest priority.
