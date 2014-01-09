@@ -15,8 +15,28 @@
       <li><%= link_to "#{image_tag(current_user.facebook.get_picture(page.person_id))} #{page.person}".html_safe, page_url(page.id) %></li>
     <% end %>
   </ul>
+<% else %>
+  <h3>Who would you rather hit?</h3>
+  <% @randoms.each do |random| %>
+  <div class='person'>
+    <%= link_to image_tag(current_user.large_picture(random.person_id)), page_url(random.id) %>
+    <%= link_to random.person, page_url(random.id) %>
+    <p>
+      <%= link_to "Hit", vote_page_url(random.id), :method => 'post', :class => 'button alert'  %>
+    </p>
+  </div>
+  <% end %>
 <% end %>
 
-<h3>Who would you rather hit?</h3>
-<p><%= @rand_one.person %> <%= link_to "Hit", vote_page_url(id: @rand_one.id), :method => 'post' %></p>
-<p><%= @rand_two.person %> <%= link_to "Hit", vote_page_url(id: @rand_two.id), :method => 'post' %></p>
+
+<p>Date: <input type="text" id="datepicker"></p>
+
+<script type="text/javascript">
+  $(function() {
+    $( "#datepicker" ).datepicker();
+  });
+</script>
+
+
+
+

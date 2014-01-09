@@ -4,7 +4,6 @@ class PagesController < ApplicationController
   # GET /pages
   # GET /pages.json
   def index
-
     if params[:search]
       @pages = Page.where("person LIKE ? OR person_id LIKE ?",
                                     "%#{params[:search]}%",
@@ -12,14 +11,12 @@ class PagesController < ApplicationController
     elsif params[:tag]
       @pages = Page.tagged_with(params[:tag]).limit(25)
     end
-    @rand_one = Page.offset(rand(Page.count)).first
-    @rand_two = Page.offset(rand(Page.count)).first
-    # current_user.friends.each do |friend|
-    #   Page.where(:person_id => friend['id']).first_or_create do |page|
-    #     page.person = friend['name']
-    #     page.person_id = friend['id']
-    #   end
-    # end
+
+    if current_user.gender == 'male'
+      @randoms = Page.two_random_female
+    else
+      @randoms = Page.two_random_male
+    end
   end
 
   # GET /pages/1

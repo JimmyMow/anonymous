@@ -19,7 +19,16 @@ class SessionsController < ApplicationController
       user.email = data[:info][:email]
       user.save!
       session[:user_id] = user.id
-      redirect_to root_url
+
+      current_user.friends.each do |friend|
+        Page.where(:person_id => friend['id']).first_or_initialize do |page|
+          page.person = friend['name']
+          page.person_id = friend['id']
+          page.gender = current_user.get_gender(friend['id'])
+          page.save
+        end
+      end
+      redirect_to pages_url
   end
 
   def destroy

@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140108040603) do
+ActiveRecord::Schema.define(version: 20140108214316) do
 
   create_table "pages", force: true do |t|
     t.string   "person"
     t.integer  "person_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "gender"
   end
 
   create_table "search_suggestions", force: true do |t|

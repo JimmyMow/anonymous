@@ -5,6 +5,8 @@
   <%= @page.person %>
 </h1>
 
+<h2>Score: <%= @page.votes.count %></h2>
+
 <h6><%= raw @page.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %></h6>
 
 <%= form_tag add_tag_list_url, method: 'patch' do %>
